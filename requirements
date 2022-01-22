@@ -1,6 +1,8 @@
 nextcord by this command
 
 py -3 -m pip install -U nextcord
+py -3 -m pip install -U nextcord[Voice]
+
 
 pip install python-dotenv
 pip install dotenv
