@@ -1,16 +1,16 @@
 # bot.py
 import os
 
-import discord
+import nextcord
 from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-intents = discord.Intents.default()
+intents = nextcord.Intents.default()
 intents.members = True
-client = discord.Client(intents=intents)
+client = nextcord.Client(intents=intents)
 
 
 def updatevar():
@@ -20,7 +20,7 @@ def updatevar():
     mylist = source.split("=")[1]
     global prefix
     prefix = str(mylist)
-    print(prefix)
+    print('Current prefix is = '+prefix)
 
 
 updatevar()
@@ -47,7 +47,6 @@ async def on_ready():
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
-    print(prefix+'Mike')
 
 
 @client.event
