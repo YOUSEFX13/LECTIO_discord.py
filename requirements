@@ -1,0 +1,6 @@
+nextcord by this command
+
+py -3 -m pip install -U nextcord
+
+pip install python-dotenv
+pip install dotenv
