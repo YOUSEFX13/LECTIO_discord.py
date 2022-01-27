@@ -73,13 +73,14 @@ async def on_message(message):
                          icon_url="https://pbs.twimg.com/profile_images/1327036716226646017/ZuaMDdtm_400x400.jpg")
 
         embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
-
-        embed.add_field(name="Field 1 Title",
-                        value="This is the value for field 1. This is NOT an inline field.", inline=False)
-        embed.add_field(name="Field 2 Title",
-                        value="It is inline with Field 3", inline=True)
-        embed.add_field(name="Field 3 Title",
-                        value="It is inline with Field 2", inline=True)
+        embed.add_field(name="Time",
+                        value=time, inline=False)
+        embed.add_field(name="Team",
+                        value=team, inline=False)
+        embed.add_field(name="Teacher",
+                        value=teacher, inline=True)
+        embed.add_field(name="room",
+                        value=room, inline=True)
 
         embed.set_footer(
             text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
