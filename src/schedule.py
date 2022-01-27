@@ -110,8 +110,13 @@ def schedule(self, Session, SchoolId, StudentId):
 
         # .split(":")[2]
 
+        Schedule['Status'] = status
+        Schedule['Title'] = title
+        Schedule['Time'] = time
+        Schedule['Team'] = team
         Schedule['Teacher'] = teacher
-        Schedule['time'] = time
+        Schedule['Room'] = room
+        Schedule['Id'] = lessonId
 
         fullSchedule.append(Schedule)
         Schedule = {}
