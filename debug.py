@@ -126,10 +126,10 @@ async def on_message(message):
             urlid = y['Id']
 
             embed = nextcord.Embed(title="Link To Modul", url="https://www.lectio.dk/lectio/"+SCHOOLID+"/aktivitet/aktivitetforside2.aspx?absid="+urlid,
-                                   description="Hello! Here is your schedule for the day :D ", color=0x109319)
+                                   description="Hello! Here is your schedule for the day :D ", color=0xffffff)
 
             embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
-                             icon_url="https://pbs.twimg.com/profile_images/1327036716226646017/ZuaMDdtm_400x400.jpg")
+                             icon_url="https://i.imgur.com/jPJFHH3.png")
 
             embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
             embed.add_field(name="Time",
