@@ -94,7 +94,7 @@ async def on_ready():
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
-    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Game(name='With Myself.'))
+    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Game(name='Lectio'))
 
 
 @client.event
@@ -116,15 +116,39 @@ async def on_message(message):
         await message.channel.send(response)
 
     if message.content == prefix+'github':  # github command
-        response = 'Our Github page: https://github.com/YOUSEFX13/discord.py'
+        response = 'Link to github: https://github.com/YOUSEFX13/discord.py'
         await message.channel.send(response)
 
-    if message.content == prefix+'help':  # github command
-        response = 'WIP'
-        await message.channel.send(response)
+    if message.content == prefix+'help':  # list of commands
 
-    if message.content == (prefix+'skema'):  # mike
+        embed = nextcord.Embed(title="Here is a list of commands!", url="https://www.lectio.dk/",
+                               description="List of commands", color=0xffffff)
 
+        embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
+                         icon_url="https://i.imgur.com/jPJFHH3.png")
+
+        embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
+
+        embed.add_field(
+            name=prefix+'help', value="insert commands here", inline=False)
+        embed.add_field(
+            name=prefix+'Mike', value="insert commands here", inline=False)
+        embed.add_field(
+            name=prefix+'github', value="insert commands here", inline=False)
+        embed.add_field(
+            name=prefix+'prefix', value="insert commands here", inline=False)
+        embed.add_field(
+            name=prefix+'skema', value="insert commands here", inline=False)
+
+        embed.set_footer(
+            text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
+
+        channel = client.get_channel(936548630146449508)
+
+        await message.channel.send(embed=embed)
+
+    if message.content == (prefix+'skema'):  # skema
+        respone = 'Skemaet for idag' + ' ' + (message.author.mention)
         skema = (str(lec.getSchedule()))
 
         anan = skema.replace("\'", "\"")
@@ -180,7 +204,7 @@ async def on_message(message):
             embed.set_footer(
                 text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
             channel = client.get_channel(936548630146449508)
-            await channel.send(embed=embed)
+            await channel.send(embed=embed)  # channel.send(respone)
 
     if message.content.startswith(prefix+'prefix'):
         response = message.content

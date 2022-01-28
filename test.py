@@ -52,7 +52,7 @@ lectiotime()
 # Print out your exercises
 
 
-skema = (str(lec.getSchedule()))
+skema = (str(lec.getExercises()))
 
 anan = skema.replace("\'", "\"")
 
@@ -66,7 +66,7 @@ testm = str(1)
 for ad in range(aa):
     global yy
     yy = x[int(ad)]
-    ff = str(yy['Time'].split(curYear)[0])
+    ff = str(yy['Id'].split(curYear)[0])
     kk = ff.replace("-", "-"+curYear)
 
     DANUMBA[str(kk)] = str(ad)
@@ -81,6 +81,6 @@ for ad in range(aa):
     else:
         pass
 
-
-for l in thenumba:
-    print(l)
+print(x)
+# for l in thenumba:
+# print(l)
