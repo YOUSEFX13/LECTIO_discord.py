@@ -7,14 +7,59 @@ from nextcord.utils import get
 from nextcord import FFmpegPCMAudio
 from nextcord import TextChannel
 from youtube_dl import YoutubeDL
+import json
+import datetime
+from src.lectio import Lectio
+
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
+LECNAME = os.getenv('Lectio_name')
+LECPASS = os.getenv('Lectio_pass')
+SCHOOLID = os.getenv('Lectio_ID')
 
 intents = nextcord.Intents.default()
 intents.members = True
 client = nextcord.Client(intents=intents)
+
+
+def lectiotime():
+    a = datetime.datetime.now()
+
+    global curDay
+    curDay = a.strftime("%d")
+    if curDay.startswith('0'):
+        curDay = curDay.split('0')[1]
+        pass
+
+    else:
+        pass
+
+    global curMonth
+    curMonth = a.strftime("%m")
+    if curMonth.startswith('0'):
+
+        curMonth = curMonth.split('0')[1]
+        pass
+
+    else:
+        pass
+
+    global curYear
+    curYear = a.strftime("%Y")
+
+    global curDate
+    curDate = (curDay+'/'+curMonth+'-'+curYear)
+
+    global DANUMBA
+    DANUMBA = {}
+    global thenumba
+    thenumba = {}
+
+
+lectiotime()
+lec = Lectio(LECNAME, LECPASS, SCHOOLID)
 
 
 def updatevar():
@@ -49,7 +94,7 @@ async def on_ready():
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
-    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Game(name='Playing With Myself.'))
+    await client.change_presence(status=nextcord.Status.online, activity=nextcord.Game(name='With Myself.'))
 
 
 @client.event
@@ -78,26 +123,64 @@ async def on_message(message):
         response = 'WIP'
         await message.channel.send(response)
 
-    if message.content == prefix+'embed':
-        embed = nextcord.Embed(title="Link To Lectio", url="https://www.lectio.dk",
-                               description="Hello! Here is your schedule for the day :D ", color=0x109319)
+    if message.content == (prefix+'skema'):  # mike
 
-        embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
-                         icon_url="https://pbs.twimg.com/profile_images/1327036716226646017/ZuaMDdtm_400x400.jpg")
+        skema = (str(lec.getSchedule()))
 
-        embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
+        anan = skema.replace("\'", "\"")
 
-        embed.add_field(name="Field 1 Title",
-                        value="This is the value for field 1. This is NOT an inline field.", inline=False)
-        embed.add_field(name="Field 2 Title",
-                        value="It is inline with Field 3", inline=True)
-        embed.add_field(name="Field 3 Title",
-                        value="It is inline with Field 2", inline=True)
+        x = json.loads(anan)
 
-        embed.set_footer(
-            text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
+        aa = (int(len(x)))
 
-        await message.channel.send(embed=embed)
+        for ad in range(aa):
+            global yy
+
+            yy = x[int(ad)]
+            ff = str(yy['Time'].split(curYear)[0])
+            kk = ff.replace("-", "-"+curYear)
+
+            DANUMBA[str(kk)] = str(ad)
+
+            gg = DANUMBA.get(str(curDate), 'del')
+            u = [(gg, {gg: gg})]
+
+            thenumba.update(u)
+
+        if 'del' in thenumba:
+            thenumba.pop('del')
+        else:
+            pass
+        for l in thenumba:
+            numberint = int(l)
+            y = x[numberint]
+
+            time = y['Time']
+            team = y['Team']
+            teacher = y['Teacher']
+            room = y['Room']
+            urlid = y['Id']
+
+            embed = nextcord.Embed(title="Link To Modul", url="https://www.lectio.dk/lectio/"+SCHOOLID+"/aktivitet/aktivitetforside2.aspx?absid="+urlid,
+                                   description="Hello! Here is your schedule for the day :D ", color=0xffffff)
+
+            embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
+                             icon_url="https://i.imgur.com/jPJFHH3.png")
+
+            embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
+            embed.add_field(name="Time",
+                            value=time, inline=False)
+            embed.add_field(name="Team",
+                            value=team, inline=False)
+            embed.add_field(name="Teacher",
+                            value=teacher, inline=True)
+            embed.add_field(name="Room",
+                            value=room, inline=True)
+
+            embed.set_footer(
+                text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
+            channel = client.get_channel(936548630146449508)
+            await channel.send(embed=embed)
 
     if message.content.startswith(prefix+'prefix'):
         response = message.content

@@ -94,6 +94,7 @@ async def on_message(message):
         anan = skema.replace("\'", "\"")
 
         x = json.loads(anan)
+        print(x)
 
         aa = (int(len(x)))
 
