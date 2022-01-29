@@ -1,3 +1,6 @@
+from logging.config import listen
+from sre_constants import RANGE
+from tkinter.messagebox import YES
 from src.lectio import Lectio
 import os
 import json
@@ -13,6 +16,7 @@ lec = Lectio(LECNAME, LECPASS, SCHOOLID)
 
 
 def lectiotime():
+    global a
     a = datetime.datetime.now()
 
     global curDay
@@ -39,48 +43,61 @@ def lectiotime():
 
     global curDate
     curDate = (curDay+'/'+curMonth+'-'+curYear)
+    global Weekbefore
+    Weekbefore = a - datetime.timedelta(days=7)
+
+    global WeekBFFIX
+    WeekBFFIX = (str(Weekbefore.day)+'/' +
+                 str(Weekbefore.month)+'-'+str(Weekbefore.year))
+
+    global maxweek
+    maxweek = a + datetime.timedelta(days=7)
 
     global DANUMBA
     DANUMBA = {}
     global thenumba
     thenumba = {}
-
-
-lectiotime()
+    global liste
+    liste = {}
+    global opgavekeys
+    opgavekeys = {}
 
 
 # Print out your exercises
-
-
+lectiotime()
 skema = (str(lec.getExercises()))
 
 anan = skema.replace("\'", "\"")
 
-x = json.loads(anan)
+xx = json.loads(anan)
 
 
-aa = (int(len(x)))
-testm = str(1)
+aa = (int(len(xx)-14))
 
 
 for ad in range(aa):
     global yy
-    yy = x[int(ad)]
-    ff = str(yy['Id'].split(curYear)[0])
+    yy = xx[int(ad+14)]
+    ff = str(yy['Frist'].split(curYear)[0])
     kk = ff.replace("-", "-"+curYear)
+    fff = str(yy['Id'])
+    # das = str(ad+14)
+    # intdas = int(ad+14)
 
-    DANUMBA[str(kk)] = str(ad)
+    liste.update({kk: fff})
+opgavekeys = list(liste.keys())
 
-    gg = DANUMBA.get(str(curDate), 'del')
-    u = [(gg, {gg: gg})]
 
-    thenumba.update(u)
+for keynum in range(len(opgavekeys)):
 
-    if 'del' in thenumba:
-        thenumba.pop('del')
+    na = str(opgavekeys[keynum])
+    keyyear = int(na.split("-")[1])
+    keymonth = int((na.split("/")[1]).split("-")[0])
+    keyday = int((na.split("-")[0]).split("/")[0])
+    keydate = datetime.datetime(keyyear, keymonth, keyday)
+
+    if keydate >= Weekbefore and keydate >= a and keydate < maxweek:
+
+        print(xx[keynum+14])
     else:
         pass
-
-print(x)
-# for l in thenumba:
-# print(l)

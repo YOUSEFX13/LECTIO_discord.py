@@ -89,36 +89,28 @@ async def on_message(message):
 
     if message.content == (prefix+'skema'):  # mike
 
-        skema = (str(lec.getSchedule()))
+        skema = (str(lec.getExercises()))
 
         anan = skema.replace("\'", "\"")
 
-        x = json.loads(anan)
-        print(x)
+        xx = json.loads(anan)
 
-        aa = (int(len(x)))
+        aa = (int(len(xx)-14))
 
         for ad in range(aa):
             global yy
-
-            yy = x[int(ad)]
-            ff = str(yy['Time'].split(curYear)[0])
+            yy = xx[int(ad+14)]
+            ff = str(yy['Frist'].split(curYear)[0])
             kk = ff.replace("-", "-"+curYear)
+            fff = str(yy['Id'])
 
-            DANUMBA[str(kk)] = str(ad)
+            liste = {}
+            internal_marks = {kk: fff}
+            liste.update(internal_marks)
 
-            gg = DANUMBA.get(str(curDate), 'del')
-            u = [(gg, {gg: gg})]
-
-            thenumba.update(u)
-
-        if 'del' in thenumba:
-            thenumba.pop('del')
-        else:
-            pass
         for l in thenumba:
             numberint = int(l)
-            y = x[numberint]
+            y = xx[numberint]
 
             time = y['Time']
             team = y['Team']

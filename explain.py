@@ -25,6 +25,7 @@ client = nextcord.Client(intents=intents)
 
 
 def lectiotime():
+    global a
     a = datetime.datetime.now()
 
     global curDay
@@ -51,11 +52,24 @@ def lectiotime():
 
     global curDate
     curDate = (curDay+'/'+curMonth+'-'+curYear)
+    global Weekbefore
+    Weekbefore = a - datetime.timedelta(days=7)
+
+    global WeekBFFIX
+    WeekBFFIX = (str(Weekbefore.day)+'/' +
+                 str(Weekbefore.month)+'-'+str(Weekbefore.year))
+
+    global maxweek
+    maxweek = a + datetime.timedelta(days=7)
 
     global DANUMBA
     DANUMBA = {}
     global thenumba
     thenumba = {}
+    global liste
+    liste = {}
+    global opgavekeys
+    opgavekeys = {}
 
 
 lectiotime()
@@ -121,7 +135,7 @@ async def on_message(message):
 
     if message.content == prefix+'help':  # list of commands
 
-        embed = nextcord.Embed(title="Here is a list of commands!", url="https://www.lectio.dk/",
+        embed = nextcord.Embed(title="Here is a list of commands!",
                                description="List of commands", color=0xffffff)
 
         embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
@@ -130,15 +144,17 @@ async def on_message(message):
         embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
 
         embed.add_field(
-            name=prefix+'help', value="insert commands here", inline=False)
+            name=prefix+'help', value="Shows a list of commands! ", inline=False)
         embed.add_field(
-            name=prefix+'Mike', value="insert commands here", inline=False)
+            name=prefix+'Mike', value="Does a Mike check!", inline=False)
         embed.add_field(
-            name=prefix+'github', value="insert commands here", inline=False)
+            name=prefix+'github', value="Our **Github page** (its private right now so you wont be able to see it D:", inline=False)
         embed.add_field(
-            name=prefix+'prefix', value="insert commands here", inline=False)
+            name=prefix+'prefix', value="Change the prefix (only one character)", inline=False)
         embed.add_field(
-            name=prefix+'skema', value="insert commands here", inline=False)
+            name=prefix+'skema', value="Shows the **Schedule** for the day!", inline=False)
+        embed.add_field(
+            name=prefix+'afl', value="Shows the **afleveringer** for the week!", inline=False)
 
         embed.set_footer(
             text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
@@ -148,7 +164,9 @@ async def on_message(message):
         await message.channel.send(embed=embed)
 
     if message.content == (prefix+'skema'):  # skema
-        respone = 'Skemaet for idag' + ' ' + (message.author.mention)
+
+        lectiotime()
+        response = 'Skemaet for idag' + ' ' + (message.author.mention)
         skema = (str(lec.getSchedule()))
 
         anan = skema.replace("\'", "\"")
@@ -205,6 +223,78 @@ async def on_message(message):
                 text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
             channel = client.get_channel(936548630146449508)
             await channel.send(embed=embed)  # channel.send(respone)
+
+    if message.content == (prefix+'afl'):  # se dine Aflevering
+
+        lectiotime()
+        response = 'Here is your request' + ' ' + (message.author.mention)
+        skema = (str(lec.getExercises()))
+        channel = client.get_channel(936837622574219305)
+        await channel.send(response)
+
+        anan = skema.replace("\'", "\"")
+
+        xx = json.loads(anan)
+
+        aa = (int(len(xx)-14))
+
+        for ad in range(aa):
+            global yya
+            yya = xx[int(ad+14)]
+            ff = str(yya['Frist'].split(curYear)[0])
+            kk = ff.replace("-", "-"+curYear)
+            fff = str(yya['Id'])
+            # das = str(ad+14)
+            # intdas = int(ad+14)
+
+            liste.update({kk: fff})
+        opgavekeys = list(liste.keys())
+
+        for keynum in range(len(opgavekeys)):
+
+            na = str(opgavekeys[keynum])
+            keyyear = int(na.split("-")[1])
+            keymonth = int((na.split("/")[1]).split("-")[0])
+            keyday = int((na.split("-")[0]).split("/")[0])
+            keydate = datetime.datetime(keyyear, keymonth, keyday)
+
+            if keydate >= Weekbefore and keydate >= a and keydate < maxweek:
+
+                yyy = xx[keynum+14]
+
+                Frist = yyy['Frist']
+                team = yyy['Hold']
+                Opgavetitel = yyy['Opgavetitel']
+                Elevtid = yyy['Elevtid']
+                urlid = yyy['Id']
+                Opgavenote = yyy['Opgavenote']
+
+                embed = nextcord.Embed(title="Link To Modul(WIP)", url="https://www.lectio.dk/lectio/"+SCHOOLID+"/aktivitet/aktivitetforside2.aspx?absid="+urlid,
+                                       description="Hello! Here is your afleveringer for the week :D ", color=0xffffff)
+
+                embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
+                                 icon_url="https://i.imgur.com/jPJFHH3.png")
+
+                embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
+                embed.add_field(name="Frist",
+                                value=Frist, inline=False)
+                embed.add_field(name="Team",
+                                value=team, inline=False)
+                embed.add_field(name="Opgavetitel",
+                                value=Opgavetitel, inline=True)
+                embed.add_field(name="Elevtid",
+                                value=Elevtid, inline=True)
+                if Opgavenote == '':
+                    pass
+                else:
+                    embed.add_field(name='Opgavenote',
+                                    value=Opgavenote, inline=False)
+
+                embed.set_footer(
+                    text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
+                await channel.send(embed=embed)
+            else:
+                pass
 
     if message.content.startswith(prefix+'prefix'):
         response = message.content
