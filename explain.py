@@ -155,6 +155,9 @@ async def on_message(message):
             name=prefix+'skema', value="Shows the **Schedule** for the day!", inline=False)
         embed.add_field(
             name=prefix+'afl', value="Shows the **afleveringer** for the week!", inline=False)
+        embed.add_field(
+            name=prefix+'info', value="info about the bot!"
+        )
 
         embed.set_footer(
             text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
@@ -162,6 +165,12 @@ async def on_message(message):
         channel = client.get_channel(936548630146449508)
 
         await message.channel.send(embed=embed)
+
+    if message.content == (prefix+'info'):
+        response = 'Check skema, afleveringer osv gennem denne bot istedet for at logge ind på lectio og finde det hele frem. Check commands (prefix)help standard prefix is "!".'
+        channelid = client.get_channel(936548630146449508)
+
+        await channelid.send(response)
 
     if message.content == (prefix+'skema'):  # skema
 
@@ -202,9 +211,17 @@ async def on_message(message):
             teacher = y['Teacher']
             room = y['Room']
             urlid = y['Id']
+            Status = y['Status']
+
+            if Status == 'Aflyst':
+                modulcolor = 0x70000A
+            elif Status == 'Flyttet':
+                modulcolor = 0x00490F
+            else:
+                modulcolor = 0x083F64
 
             embed = nextcord.Embed(title="Link To Modul", url="https://www.lectio.dk/lectio/"+SCHOOLID+"/aktivitet/aktivitetforside2.aspx?absid="+urlid,
-                                   description="Hello! Here is your schedule for the day :D ", color=0xffffff)
+                                   description="Hello! Here is your schedule for the day :D ", color=modulcolor)
 
             embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
                              icon_url="https://i.imgur.com/jPJFHH3.png")
