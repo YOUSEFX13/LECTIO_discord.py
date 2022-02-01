@@ -1,6 +1,5 @@
 from logging.config import listen
 from sre_constants import RANGE
-from tkinter.messagebox import YES
 from src.lectio import Lectio
 import os
 import json
