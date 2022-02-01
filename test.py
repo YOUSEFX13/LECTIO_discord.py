@@ -65,39 +65,11 @@ def lectiotime():
 
 # Print out your exercises
 lectiotime()
-skema = (str(lec.getExercises()))
+skema = (str(lec.getSchedule()))
 
 anan = skema.replace("\'", "\"")
 
 xx = json.loads(anan)
 
 
-aa = (int(len(xx)-14))
-
-
-for ad in range(aa):
-    global yy
-    yy = xx[int(ad+14)]
-    ff = str(yy['Frist'].split(curYear)[0])
-    kk = ff.replace("-", "-"+curYear)
-    fff = str(yy['Id'])
-    # das = str(ad+14)
-    # intdas = int(ad+14)
-
-    liste.update({kk: fff})
-opgavekeys = list(liste.keys())
-
-
-for keynum in range(len(opgavekeys)):
-
-    na = str(opgavekeys[keynum])
-    keyyear = int(na.split("-")[1])
-    keymonth = int((na.split("/")[1]).split("-")[0])
-    keyday = int((na.split("-")[0]).split("/")[0])
-    keydate = datetime.datetime(keyyear, keymonth, keyday)
-
-    if keydate >= Weekbefore and keydate >= a and keydate < maxweek:
-
-        print(xx[keynum+14])
-    else:
-        pass
+print(xx)

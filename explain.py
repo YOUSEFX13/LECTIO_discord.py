@@ -175,9 +175,10 @@ async def on_message(message):
     if message.content == (prefix+'skema'):  # skema
 
         lectiotime()
+        channel = client.get_channel(936548630146449508)
         response = 'Skemaet for idag' + ' ' + (message.author.mention)
         skema = (str(lec.getSchedule()))
-
+        await channel.send(response)
         anan = skema.replace("\'", "\"")
 
         x = json.loads(anan)
@@ -186,39 +187,63 @@ async def on_message(message):
 
         for ad in range(aa):
             global yy
-
             yy = x[int(ad)]
-            ff = str(yy['Time'].split(curYear)[0])
-            kk = ff.replace("-", "-"+curYear)
+            global valuetime
+            if str(yy['Time'].split(curYear)[0]).replace("-", "-"+curYear) == curDate:
 
-            DANUMBA[str(kk)] = str(ad)
+                ff = str(yy['Time'].split(curYear)[0])
+                kk = ff.replace("-", "-"+curYear)
+                valuetime = kk
+                DANUMBA[str(valuetime)] = str(ad)
+                gg = DANUMBA.get(str(curDate), 'del')
+                u = [(gg, {gg: gg})]
+                thenumba.update(u)
 
-            gg = DANUMBA.get(str(curDate), 'del')
-            u = [(gg, {gg: gg})]
+            elif str(yy['Title'].split(curYear)[0]).replace("-", "-"+curYear) == curDate:
 
-            thenumba.update(u)
+                ff = str(yy['Title'].split(curYear)[0])
+                kk = ff.replace("-", "-"+curYear)
+                valuetime = kk
+                DANUMBA[str(valuetime)] = str(ad)
+                gg = DANUMBA.get(str(curDate), 'del')
+                u = [(gg, {gg: gg})]
+                thenumba.update(u)
 
-        if 'del' in thenumba:
-            thenumba.pop('del')
-        else:
-            pass
+            if 'del' in thenumba:
+                thenumba.pop('del')
+            else:
+                pass
+
         for l in thenumba:
             numberint = int(l)
             y = x[numberint]
 
             time = y['Time']
+            time2 = y['Title']
             team = y['Team']
             teacher = y['Teacher']
             room = y['Room']
             urlid = y['Id']
             Status = y['Status']
 
-            if Status == 'Aflyst':
-                modulcolor = 0x70000A
-            elif Status == 'Flyttet':
-                modulcolor = 0x00490F
+            global ffd
+
+            if y['Time'] == curDate:
+
+                ffd = str(y['Time'])
             else:
-                modulcolor = 0x083F64
+
+                ffd = str(y['Title'])
+
+            if Status == 'Aflyst!':
+                modulcolor = 0xFF0000
+                pass
+            elif Status == 'Flyttet':
+                modulcolor = 0x20CF00
+                pass
+            else:
+                modulcolor = 0x2F75D4
+                pass
 
             embed = nextcord.Embed(title="Link To Modul", url="https://www.lectio.dk/lectio/"+SCHOOLID+"/aktivitet/aktivitetforside2.aspx?absid="+urlid,
                                    description="Hello! Here is your schedule for the day :D ", color=modulcolor)
@@ -228,7 +253,7 @@ async def on_message(message):
 
             embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
             embed.add_field(name="Time",
-                            value=time, inline=False)
+                            value=ffd, inline=False)
             embed.add_field(name="Team",
                             value=team, inline=False)
             embed.add_field(name="Teacher",
@@ -239,7 +264,7 @@ async def on_message(message):
             embed.set_footer(
                 text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
             channel = client.get_channel(936548630146449508)
-            await channel.send(embed=embed)  # channel.send(respone)
+            await channel.send(embed=embed)
 
     if message.content == (prefix+'afl'):  # se dine Aflevering
 
