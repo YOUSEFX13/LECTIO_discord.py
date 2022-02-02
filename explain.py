@@ -173,10 +173,6 @@ async def on_message(message):
 
     if message.content == (prefix+'skema'):  # skema
         lec = Lectio(LECNAME, LECPASS, SCHOOLID)
-<<<<<<< HEAD
-
-=======
->>>>>>> 5c3c360d24da9501b10c614db126d1f8f63478ed
         lectiotime()
         channel = client.get_channel(936548630146449508)
         response = 'Skemaet for idag' + ' ' + (message.author.mention)
@@ -271,10 +267,6 @@ async def on_message(message):
 
     if message.content == (prefix+'afl'):  # se dine Aflevering
         lec = Lectio(LECNAME, LECPASS, SCHOOLID)
-<<<<<<< HEAD
-
-=======
->>>>>>> 5c3c360d24da9501b10c614db126d1f8f63478ed
         lectiotime()
         response = 'Here is your request' + ' ' + (message.author.mention)
         skema = (str(lec.getExercises()))
