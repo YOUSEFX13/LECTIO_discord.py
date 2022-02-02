@@ -73,7 +73,6 @@ def lectiotime():
 
 
 lectiotime()
-lec = Lectio(LECNAME, LECPASS, SCHOOLID)
 
 
 def updatevar():
@@ -173,6 +172,7 @@ async def on_message(message):
         await channelid.send(response)
 
     if message.content == (prefix+'skema'):  # skema
+        lec = Lectio(LECNAME, LECPASS, SCHOOLID)
 
         lectiotime()
         channel = client.get_channel(936548630146449508)
@@ -267,6 +267,7 @@ async def on_message(message):
             await channel.send(embed=embed)
 
     if message.content == (prefix+'afl'):  # se dine Aflevering
+        lec = Lectio(LECNAME, LECPASS, SCHOOLID)
 
         lectiotime()
         response = 'Here is your request' + ' ' + (message.author.mention)
