@@ -9,6 +9,7 @@ import datetime
 from requests import get
 import getpass
 import sys
+import time
 
 # load our local env so we dont have the token in public
 
@@ -79,6 +80,12 @@ def lectiotime():
     global maxweek
     maxweek = a + datetime.timedelta(days=7)
 
+    global daybefore
+    daybefore = a - datetime.timedelta(days=1)
+
+    global maxday
+    maxday = a + datetime.timedelta(days=1)
+
     global DANUMBA
     DANUMBA = {}
     global thenumba
@@ -89,21 +96,25 @@ def lectiotime():
     opgavekeys = {}
 
 
+starttime = time.time()
+
+
 lectiotime()
 
 lec = Lectio(LECNAME, LECPASS, SCHOOLID)
 
 
 @client.event
-async def on_message(message):
+async def on_ready():
+    global notified
+    notified = False
 
-    if message.content == (prefix+'afl'):  # se dine Aflevering
+    if notified == False:
         lec = Lectio(LECNAME, LECPASS, SCHOOLID)
         lectiotime()
-        response = 'Here is your request' + ' ' + (message.author.mention)
+
         skema = (str(lec.getExercises()))
         channel = client.get_channel(936837622574219305)
-        await channel.send(response)
 
         anan = skema.replace("\'", "\"")
 
@@ -131,7 +142,7 @@ async def on_message(message):
             keyday = int((na.split("-")[0]).split("/")[0])
             keydate = datetime.datetime(keyyear, keymonth, keyday)
 
-            if keydate >= Weekbefore and keydate >= a and keydate < maxweek:
+            if keydate >= daybefore and keydate >= a and keydate < maxday:
 
                 yyy = xx[keynum+14]
 
@@ -166,11 +177,18 @@ async def on_message(message):
                 embed.set_footer(
                     text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
                 await channel.send(embed=embed)
+
+                notified = True
+
             else:
                 pass
 
-    if message.content == prefix+'restart':
-        await message.channel.send('Restarting...'+'lol')
+
+@client.event
+async def on_message(message):
+
+    if message.content == prefix+'restartdb':
+        await message.channel.send('Restarting debug...')
         print('orcun')
         sys.stdout.flush()
         os.execv(sys.executable, ['python'] + sys.argv)
