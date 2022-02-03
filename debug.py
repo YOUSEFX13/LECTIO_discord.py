@@ -24,6 +24,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 LECNAME = os.getenv('Lectio_name')
 LECPASS = os.getenv('Lectio_pass')
 SCHOOLID = os.getenv('Lectio_ID')
+userid = os.getenv('linux_user')
 
 intents = nextcord.Intents.default()
 intents.members = True
@@ -87,57 +88,30 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == (prefix+'skema'):  # mike
+    if message.content == (prefix+'ip'):  # mike
 
-        skema = (str(lec.getExercises()))
+        ip = get('https://api.ipify.org').content.decode('utf8')
 
-        anan = skema.replace("\'", "\"")
+        embed = nextcord.Embed(title="Link To Modul", url="https://www.lectio.dk/lectio/"+SCHOOLID+"/aktivitet/aktivitetforside2.aspx?absid="+urlid,
+                               description="Hello! Here is your schedule for the day :D ", color=0xffffff)
 
-        xx = json.loads(anan)
+        embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
+                         icon_url="https://i.imgur.com/jPJFHH3.png")
 
-        aa = (int(len(xx)-14))
+        embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
+        embed.add_field(name="IP",
+                        value=ip, inline=False)
+        embed.add_field(name="login",
+                        value=(+'@'+ip), inline=False)
+        embed.add_field(name="Teacher",
+                        value=teacher, inline=True)
+        embed.add_field(name="Room",
+                        value=room, inline=True)
 
-        for ad in range(aa):
-            global yy
-            yy = xx[int(ad+14)]
-            ff = str(yy['Frist'].split(curYear)[0])
-            kk = ff.replace("-", "-"+curYear)
-            fff = str(yy['Id'])
+        embed.set_footer(
+            text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
 
-            liste = {}
-            internal_marks = {kk: fff}
-            liste.update(internal_marks)
-
-        for l in thenumba:
-            numberint = int(l)
-            y = xx[numberint]
-
-            time = y['Time']
-            team = y['Team']
-            teacher = y['Teacher']
-            room = y['Room']
-            urlid = y['Id']
-
-            embed = nextcord.Embed(title="Link To Modul", url="https://www.lectio.dk/lectio/"+SCHOOLID+"/aktivitet/aktivitetforside2.aspx?absid="+urlid,
-                                   description="Hello! Here is your schedule for the day :D ", color=0xffffff)
-
-            embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
-                             icon_url="https://i.imgur.com/jPJFHH3.png")
-
-            embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
-            embed.add_field(name="Time",
-                            value=time, inline=False)
-            embed.add_field(name="Team",
-                            value=team, inline=False)
-            embed.add_field(name="Teacher",
-                            value=teacher, inline=True)
-            embed.add_field(name="Room",
-                            value=room, inline=True)
-
-            embed.set_footer(
-                text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
-
-            await message.channel.send(embed=embed)
+        await message.channel.send(embed=embed)
 
 
 client.run(TOKEN)
