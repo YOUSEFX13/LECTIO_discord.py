@@ -11,6 +11,7 @@ import datetime
 from src.lectio import Lectio
 from requests import get
 import getpass
+import sys
 
 
 load_dotenv()
@@ -381,7 +382,16 @@ async def on_message(message):
             updatevar()
 
         else:
+
             await message.channel.send('only one charecter')
+
+    if message.author.id == 400570716401041408 or message.author.id == 383201612098830338:
+        if message.content == prefix+'restart':
+            await message.channel.send('Restarting...'+message.author.mention)
+            os.system("git pull")
+            print('orcun')
+            sys.stdout.flush()
+            os.execv(sys.executable, ['python'] + sys.argv)
 
 
 @ client.event  # leave message

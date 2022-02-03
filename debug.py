@@ -1,5 +1,6 @@
 # debugbot.py
 import os
+from pdb import Restart
 import discord
 from dotenv import load_dotenv
 from src.lectio import Lectio
@@ -169,6 +170,7 @@ async def on_message(message):
                 pass
 
     if message.content == prefix+'restart':
+        await message.channel.send('Restarting...'+'lol')
         print('orcun')
         sys.stdout.flush()
         os.execv(sys.executable, ['python'] + sys.argv)
