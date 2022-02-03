@@ -1,4 +1,5 @@
 nextcord==2.0.0a6
+py-cord==2.0.0b1
 python-dotenv==0.19.2
 youtube_dl==2021.12.17
 lxml==4.7.1
