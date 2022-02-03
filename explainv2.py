@@ -20,6 +20,8 @@ GUILD = os.getenv('DISCORD_GUILD')
 LECNAME = os.getenv('Lectio_name')
 LECPASS = os.getenv('Lectio_pass')
 SCHOOLID = os.getenv('Lectio_ID')
+author1 = os.getenv('Author_1')
+author2 = os.getenv('Author_2')
 
 intents = discord.Intents.default()
 intents.members = True
@@ -340,7 +342,7 @@ async def on_message(message):
                 pass
 
     if message.content == (prefix+'ip'):  # sends ip and login for bot
-        if message.author.id == 400570716401041408 or message.author.id == 383201612098830338:
+        if message.author.id == author1 or message.author.id == author2:
 
             ip = get('https://api.ipify.org').content.decode('utf8')
 
@@ -385,7 +387,7 @@ async def on_message(message):
 
             await message.channel.send('only one charecter')
 
-    if message.author.id == 400570716401041408 or message.author.id == 383201612098830338:
+    if message.author.id == author1 or message.author.id == author2:  # this updates and restarts the bot
         if message.content == prefix+'restart':
             await message.channel.send('Restarting...'+message.author.mention)
             os.system("git pull")
