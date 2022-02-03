@@ -10,6 +10,8 @@ from youtube_dl import YoutubeDL
 import json
 import datetime
 from src.lectio import Lectio
+from requests import get
+import getpass
 
 
 load_dotenv()
@@ -336,6 +338,33 @@ async def on_message(message):
                 await channel.send(embed=embed)
             else:
                 pass
+
+    if message.content == (prefix+'ip'):  # sends ip and login for bot
+        if message.author.id == 400570716401041408 or message.author.id == 383201612098830338:
+
+            ip = get('https://api.ipify.org').content.decode('utf8')
+
+            embed = nextcord.Embed(title="Link To Modul", url="",
+                                   description="Hello! Here is your login for the server ", color=0xffffff)
+
+            embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
+                             icon_url="https://i.imgur.com/jPJFHH3.png")
+
+            embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
+            embed.add_field(name="IP",
+                            value=ip, inline=False)
+            embed.add_field(name="login",
+                            value=(getpass.getuser()+'@'+ip), inline=False)
+
+            embed.set_footer(
+                text="Made by ๖ۣۜℜ𝒾bar𝒾⚔#9594 & жар#9179")
+
+            user = client.get_user(message.author.id)
+            await user.send(embed=embed)
+
+            await message.channel.send('look at your dm')
+        else:
+            await message.channel.send((message.author.mention)+'you are not allowed to do that')
 
     if message.content.startswith(prefix+'prefix'):
         response = message.content
