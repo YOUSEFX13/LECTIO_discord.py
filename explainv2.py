@@ -342,20 +342,20 @@ async def on_message(message):
                 pass
 
     if message.content == (prefix+'ip'):  # sends ip and login for bot
-        if message.author.id == author1 or message.author.id == author2:
+        if str(message.author.id) == str(author1) or str(message.author.id) == str(author2):
 
             ip = get('https://api.ipify.org').content.decode('utf8')
 
-            embed = discord.Embed(title="Link To Modul", url="",
+            embed = discord.Embed(title="Link To Termius", url="https://termius.com/mac-os",
                                   description="Hello! Here is your login for the server ", color=0xffffff)
 
             embed.set_author(name="DEVSEVBOT", url="https://www.youtube.com/watch?v=989-7xsRLR4",
                              icon_url="https://i.imgur.com/jPJFHH3.png")
 
-            embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
-            embed.add_field(name="IP",
+            embed.set_thumbnail(url="https://i.imgur.com/jPJFHH3.png")
+            embed.add_field(name="IP Address",
                             value=ip, inline=False)
-            embed.add_field(name="login",
+            embed.add_field(name="login for visual studio code",
                             value=(getpass.getuser()+'@'+ip), inline=False)
 
             embed.set_footer(
@@ -387,13 +387,20 @@ async def on_message(message):
 
             await message.channel.send('only one charecter')
 
-    if message.author.id == author1 or message.author.id == author2:  # this updates and restarts the bot
+    # this updates and restarts the bot
+    if str(message.author.id) == str(author1) or str(message.author.id) == str(author2):
+        print('works')
         if message.content == prefix+'restart':
             await message.channel.send('Restarting...'+message.author.mention)
             os.system("git pull")
             print('orcun')
             sys.stdout.flush()
             os.execv(sys.executable, ['python'] + sys.argv)
+    else:
+        print('yok amina')
+        print(author1)
+        print(author2)
+        print(message.author.id)
 
 
 @ client.event  # leave message
