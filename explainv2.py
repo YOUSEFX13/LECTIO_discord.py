@@ -240,7 +240,7 @@ async def on_message(message):
 
                 ffd = str(y['Title'])
             else:
-                ffd = curDate
+                ffd = time2
 
             if Status == 'Aflyst!':
                 modulcolor = 0xFF0000
