@@ -230,17 +230,7 @@ async def on_message(message):
             room = y['Room']
             urlid = y['Id']
             Status = y['Status']
-
-            global ffd
-
-            if y['Time'] == curDate:
-
-                ffd = str(y['Time'])
-            elif y['Title'] == curDate:
-
-                ffd = str(y['Title'])
-            else:
-                ffd = time2
+            print(time)
 
             if Status == 'Aflyst!':
                 modulcolor = 0xFF0000
@@ -260,7 +250,7 @@ async def on_message(message):
 
             embed.set_thumbnail(url="https://i.imgur.com/55EaVfW.png")
             embed.add_field(name="Time",
-                            value=ffd, inline=False)
+                            value=time, inline=False)
             embed.add_field(name="Team",
                             value=team, inline=False)
             embed.add_field(name="Teacher",
