@@ -4,7 +4,16 @@ from lxml import html
 from bs4 import BeautifulSoup
 
 # Packages
-from src import exercises, exercise, message, messages, schedule, schools, studyProgramme, unreadMessages, grades, dashboard
+from src import exercises
+from src import exercise
+from src import message
+from src import messages
+from src import schedule
+from src import schools
+from src import studyProgramme
+from src import unreadMessages
+from src import grades
+from src import dashboard
 
 
 class Lectio:

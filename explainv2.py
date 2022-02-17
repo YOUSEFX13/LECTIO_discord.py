@@ -27,6 +27,8 @@ intents = discord.Intents.default()
 intents.members = True
 client = discord.Client(intents=intents)
 
+# print(LECNAME, LECPASS, SCHOOLID)
+
 
 def lectiotime():
     global a
@@ -234,9 +236,11 @@ async def on_message(message):
             if y['Time'] == curDate:
 
                 ffd = str(y['Time'])
-            else:
+            elif y['Title'] == curDate:
 
                 ffd = str(y['Title'])
+            else:
+                ffd = 'NaN'
 
             if Status == 'Aflyst!':
                 modulcolor = 0xFF0000
