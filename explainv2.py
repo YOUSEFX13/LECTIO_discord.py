@@ -224,7 +224,6 @@ async def on_message(message):
             y = x[numberint]
 
             time = y['Time']
-            time2 = y['Title']
             team = y['Team']
             teacher = y['Teacher']
             room = y['Room']
