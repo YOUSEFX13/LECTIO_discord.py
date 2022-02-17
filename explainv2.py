@@ -298,8 +298,8 @@ async def on_message(message):
 
             if keydate >= Weekbefore and keydate >= a and keydate < maxweek:
 
-                yyy = xx[keynum+14]
-
+                yyy = xx[keynum+15]
+                print(yyy)
                 Frist = yyy['Frist']
                 team = yyy['Hold']
                 Opgavetitel = yyy['Opgavetitel']
